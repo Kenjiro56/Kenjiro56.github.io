@@ -1,6 +1,6 @@
 import { SkillRadarChart } from './components/SkillRadarChart';
 import { Logs } from './components/Logs';
-import { Github, User, Activity, ExternalLink } from 'lucide-react';
+import { Github, Activity, ExternalLink } from 'lucide-react';
 
 function App() {
   const identity = {
