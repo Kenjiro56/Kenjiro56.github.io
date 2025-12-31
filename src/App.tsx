@@ -10,9 +10,9 @@ function App() {
   };
 
   const links = [
-    { name: 'GITHUB', icon: <Github size={14} />, url: 'https://github.com/Kenjiro56' },
-    { name: 'ZENN', icon: <ExternalLink size={14} />, url: 'https://zenn.dev/jiroken' },
-    { name: 'QIITA', icon: <ExternalLink size={14} />, url: 'https://qiita.com/Jiroken' },
+    { name: 'Github', icon: <Github size={14} />, url: 'https://github.com/Kenjiro56' },
+    { name: 'Zenn', icon: <ExternalLink size={14} />, url: 'https://zenn.dev/jiroken' },
+    { name: 'Qiita', icon: <ExternalLink size={14} />, url: 'https://qiita.com/Jiroken' },
   ];
 
   return (
@@ -40,10 +40,6 @@ function App() {
           
           {/* 名前とロール */}
           <section className="mb-10">
-            <div className="flex items-center gap-2 opacity-50 mb-3">
-              <User size={12} />
-              <span className="text-[9px] tracking-widest uppercase">Operator_Identity</span>
-            </div>
             <h1 className="text-3xl font-black tracking-tighter text-white mb-2 leading-none">
               {identity.name}
             </h1>
@@ -91,7 +87,7 @@ function App() {
       {/* FOOTER */}
       <footer className="px-6 py-2 border-t border-[#00FF41]/20 text-[9px] opacity-30 flex justify-between bg-black">
         <span>SECURITY_LEVEL: 04 // ACCESS_GRANTED</span>
-        <span>© 2026 TERMINAL_PORTFOLIO</span>
+        <span>© Kenjiro Hirose</span>
       </footer>
     </div>
   );

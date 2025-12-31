@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 export type LogEntry = {
   id: string;
   date: string;
-  source: 'ZENN' | 'QIITA';
+  source: 'Zenn' | 'Qiita';
   title: string;
   link: string;
 };
@@ -27,14 +27,14 @@ export const useRSS = (zennUser: string, qiitaUser: string) => {
           ...(zennRes.items || []).map((i: any) => ({
             id: i.guid,
             date: i.pubDate.split(' ')[0].replace(/-/g, '.'),
-            source: 'ZENN',
+            source: 'Zenn',
             title: i.title,
             link: i.link
           })),
           ...(qiitaRes.items || []).map((i: any) => ({
             id: i.guid,
             date: i.pubDate.split(' ')[0].replace(/-/g, '.'),
-            source: 'QIITA',
+            source: 'Qiita',
             title: i.title,
             link: i.link
           }))

@@ -25,8 +25,9 @@ export const Logs = () => {
               {/* メタデータ行：日付とソース */}
               <div className="flex items-center gap-3 mb-1">
                 <span className="text-[10px] opacity-40 font-mono">
-                  {log.date}
+                  {log.date} 
                 </span>
+                <span className="mx-3 opacity-20 text-[10px]">/ /</span>
                 <span className="text-[9px] px-1 border border-[#00FF41]/40 opacity-70 group-hover:opacity-100 group-hover:bg-[#00FF41] group-hover:text-black transition-all">
                   {log.source}
                 </span>

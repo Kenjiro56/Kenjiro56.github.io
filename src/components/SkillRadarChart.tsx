@@ -10,14 +10,14 @@ const data = [
 ];
 
 export const SkillRadarChart = () => (
-  <div className="h-72 w-full p-4 glow-border bg-black/40">
+  <div className="h-20 w-full p-4  bg-black/40">
     <div className="text-[10px] mb-4 opacity-70 tracking-[0.2em]">
       {`> CAPABILITY_ANALYSIS_v2.0`}
     </div>
-    <ResponsiveContainer width="100%" height="100%">
-      <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
+    <ResponsiveContainer width="30%" aspect={1.2}>
+      <RadarChart cx="50%" cy="50%" outerRadius="50%" data={data}>
         <PolarGrid stroke="#00FF41" strokeOpacity={0.2} />
-        <PolarAngleAxis dataKey="subject" tick={{ fill: '#00FF41', fontSize: 10, fontWeight: 'bold' }} />
+        <PolarAngleAxis dataKey="subject" tick={{ fill: '#000', fontSize: 15, fontWeight: 'bold' }} />
         <Radar
           name="Skills"
           dataKey="A"
