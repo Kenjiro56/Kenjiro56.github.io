@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --matrix-green: #00FF41;
+    --dark-green: #003B00;
+  }
+
+  body {
+    @apply bg-black text-[#00FF41] font-mono m-0 overflow-hidden select-none;
+    text-shadow: 0 0 5px rgba(0, 255, 65, 0.7);
+  }
+
+  /* 走査線エフェクト（CRTモニター風） */
+  body::before {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+    z-index: 100;
+    background-size: 100% 3px, 3px 100%;
+    pointer-events: none;
+  }
+
+  /* カスタムスクロールバー */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: #000; }
+  ::-webkit-scrollbar-thumb { background: var(--matrix-green); box-shadow: 0 0 10px var(--matrix-green); }
+}
+
+.glow-border {
+  @apply border border-[#00FF41];
+  box-shadow: 0 0 10px rgba(0, 255, 65, 0.3), inset 0 0 5px rgba(0, 255, 65, 0.1);
+}
+
+@keyframes blink { 50% { opacity: 0; } }
+.cursor-blink { animation: blink 1s step-end infinite; }
