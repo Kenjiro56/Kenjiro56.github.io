@@ -15,7 +15,6 @@ export const useRSS = (zennUser: string, qiitaUser: string) => {
   useEffect(() => {
     const fetchFeeds = async () => {
       try {
-        // rss2json などのAPIを使用するとフロントエンドから取得しやすいです
         const zennUrl = `https://api.rss2json.com/v1/api.json?rss_url=https://zenn.dev/${zennUser}/feed`;
         const qiitaUrl = `https://api.rss2json.com/v1/api.json?rss_url=https://qiita.com/${qiitaUser}/feed`;
 

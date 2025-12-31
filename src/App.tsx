@@ -68,7 +68,6 @@ function App() {
                     {link.icon}
                     <span className="text-xs font-bold tracking-widest">{link.name}</span>
                   </div>
-                  <ExternalLink size={10} className="opacity-0 group-hover:opacity-100" />
                 </a>
               ))}
             </nav>
