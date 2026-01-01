@@ -3,44 +3,39 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    --matrix-green: #00FF41;
-    --dark-green: #003B00;
-  }
-
   body {
-    @apply bg-black text-[#00FF41] font-mono m-0 overflow-hidden select-none;
-    text-shadow: 0 0 5px rgba(0, 255, 65, 0.7);
+    /* 背景を真っ黒に設定 */
+    background-color: #000000;
+    /* 文字をターミナルグリーンに固定 */
+    color: #00FF00;
+    @apply m-0 overflow-x-hidden;
+    font-family: 'VT323', monospace;
   }
 
-  /* 走査線エフェクト（CRTモニター風） */
+  /* 画面全体の走査線エフェクト（背景が真っ黒なので、より際立ちます） */
   body::before {
     content: " ";
     display: block;
-    /* absolute から fixed に変更 */
-    position: fixed; 
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    /* 網掛けのパターン */
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
-                linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-    z-index: 999; /* 全ての要素より上に配置 */
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%), 
+                linear-gradient(90deg, rgba(0, 255, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.02));
+    z-index: 999;
     background-size: 100% 3px, 3px 100%;
-    pointer-events: none; /* 下の要素をクリックできるようにする */
+    pointer-events: none;
   }
 
-  /* カスタムスクロールバー */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: #000; }
-  ::-webkit-scrollbar-thumb { background: var(--matrix-green); box-shadow: 0 0 10px var(--matrix-green); }
+  a, a:visited, a:active {
+    color: inherit; /* 親要素（この場合は #00FF00）を継承 */
+    text-decoration: none; /* 下線を消す */
+  }
+
+  /* ホバー時は明示的に色を指定する場合（例：背景反転など） */
+  a:hover {
+    color: inherit;
+  }
+  
 }
 
-.glow-border {
-  @apply border border-[#00FF41];
-  box-shadow: 0 0 10px rgba(0, 255, 65, 0.3), inset 0 0 5px rgba(0, 255, 65, 0.1);
-}
-
-@keyframes blink { 50% { opacity: 0; } }
 .cursor-blink { animation: blink 1s step-end infinite; }
+@keyframes blink { 50% { opacity: 0; } }
