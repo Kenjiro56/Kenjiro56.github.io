@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 export const DecryptText = () => {
   const targetText = "Kenjiro's Portfolio. Let's enjoy hacking!!";
@@ -8,9 +8,9 @@ export const DecryptText = () => {
   useEffect(() => {
     let iteration = 0;
     const interval = setInterval(() => {
-      setDisplayText(prev => 
+      setDisplayText(_ => 
         targetText.split("")
-          .map((char, index) => {
+          .map((_, index) => {
             if (index < iteration) {
               return targetText[index]; // すでに確定した文字
             }
