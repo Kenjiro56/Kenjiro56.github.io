@@ -1,4 +1,4 @@
-import { SkillRadarChart } from './components/SkillRadarChart';
+import { Works } from './components/Works';
 import { Logs } from './components/Logs';
 import { DecryptText } from './components/DecryptText';
 
@@ -21,7 +21,6 @@ function App() {
           <p>{`> NAME: ${identity.name}`}</p>
           <p>{`> ROLE: ${identity.role}`}</p>
           <p>{`> LOCATION: TOKYO`}</p>
-          <p>{`> STATUS: ONLINE`}</p>
         </section>
 
         {/* NAVIGATION: 番号付き縦並び */}
@@ -40,16 +39,13 @@ function App() {
           <Logs />
         </section>
 
-        {/* SKILLS */}
-        <section className="mb-12">
-          <p className="mb-4 text-white underline">[ ANALYZE_CAPABILITY ]</p>
-          <div className="max-w-xs border border-[#00FF00]/30 p-2">
-            <SkillRadarChart />
-          </div>
+        <section id="works" className="mb-12">
+          <p className="mb-4 text-white underline">[ PROJECT_WORKS / REPOSITORY ]</p>
+          <Works />
         </section>
 
         {/* PROMPT */}
-        <div className="flex items-center mt-20 opacity-70">
+        <div className="flex items-center mt-40 opacity-70">
           <span>{`$ root@kenjiro:~#`}</span>
           <span className="cursor-blink ml-2">_</span>
         </div>

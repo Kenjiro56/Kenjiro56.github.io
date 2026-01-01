@@ -7,7 +7,8 @@ export const Logs = () => {
 
   return (
     <div className="flex flex-col gap-2">
-      {logs.map((log) => (
+      <span>{`$ root@kenjiro:~# head -n 5 logs.txt`}</span><br/><br/>
+      {logs.slice(0, 5).map((log) => (
         <>
           <a 
             key={log.id} 

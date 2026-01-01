@@ -12,14 +12,14 @@ export const DecryptText = () => {
         targetText.split("")
           .map((_, index) => {
             if (index < iteration) {
-              return targetText[index]; // すでに確定した文字
+              return targetText[index]; 
             }
-            return chars[Math.floor(Math.random() * chars.length)]; // ランダムな文字
+            return chars[Math.floor(Math.random() * chars.length)];
           })
           .join("")
       );
 
-      iteration += 1 / 3; // 速度の調整（値を小さくするとゆっくりになります）
+      iteration += 1 / 3; 
       
       if (iteration >= targetText.length) {
         clearInterval(interval);
