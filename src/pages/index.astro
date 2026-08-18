@@ -5,6 +5,7 @@ import PhotoCard from '../components/PhotoCard.astro';
 import SlideCard from '../components/SlideCard.astro';
 import { fetchAllArticles } from '../lib/rss';
 import { getPhotos } from '../utils/photos';
+import { getSlides } from '../lib/slides';
 
 // 1. 最新のRSS記事の取得 (上位4件ピックアップ)
 const allArticles = await fetchAllArticles();
@@ -15,24 +16,13 @@ const allPhotos = await getPhotos();
 const latestPhotos = allPhotos.slice(0, 3);
 
 // 3. 最新スライド
-const latestSlides = [
-  {
-    id: 'slide-1',
-    title: 'Astro v5 と Leaflet で作る次世代ポートフォリオの設計実践',
-    event: 'Web Tech Conference 2026',
-    date: '2026-08-10',
-    platform: 'Speaker Deck' as const,
-    embedUrl: 'https://speakerdeck.com/player/a362f6bbd68846bbba92a95c37482f63',
-    linkUrl: 'https://speakerdeck.com',
-    description: 'ビルド時 Exif 抽出による自動マップピン生成と SSG パフォーマンス最適化手法。',
-  },
-];
+const allSlides = await getSlides();
+const latestSlides = allSlides.slice(0, 2);
 
 const snsLinks = [
   { name: 'GitHub', url: 'https://github.com/Kenjiro56', icon: '🐙', color: 'hover:border-purple-500/50 hover:bg-purple-950/20' },
-  { name: 'X (Twitter)', url: 'https://x.com', icon: '𝕏', color: 'hover:border-cyan-500/50 hover:bg-cyan-950/20' },
-  { name: 'Zenn', url: 'https://zenn.dev', icon: '💙', color: 'hover:border-blue-500/50 hover:bg-blue-950/20' },
-  { name: 'LinkedIn', url: 'https://linkedin.com', icon: '💼', color: 'hover:border-sky-500/50 hover:bg-sky-950/20' },
+  { name: 'X (Twitter)', url: 'https://x.com/r0se6k', icon: '𝕏', color: 'hover:border-cyan-500/50 hover:bg-cyan-950/20' },
+  { name: 'LinkedIn', url: 'https://linkedin.com/in/kenjiro-hirose-2754bb2b4/', icon: '💼', color: 'hover:border-sky-500/50 hover:bg-sky-950/20' },
 ];
 ---
 

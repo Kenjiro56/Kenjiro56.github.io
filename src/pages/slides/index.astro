@@ -1,75 +1,9 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import SlideCard, { type SlideItem } from '../../components/SlideCard.astro';
-import Parser from 'rss-parser';
-import { SPEAKERDECK_USERNAME, manualSlides } from '../../config/slides';
+import SlideCard from '../../components/SlideCard.astro';
+import { getSlides } from '../../lib/slides';
 
-const parser = new Parser();
-let speakerdeckSlides: SlideItem[] = [];
-
-if (SPEAKERDECK_USERNAME) {
-  try {
-    const feedUrl = `https://speakerdeck.com/${SPEAKERDECK_USERNAME}.rss`;
-    console.log(`Fetching Speaker Deck RSS from: ${feedUrl}`);
-    const feed = await parser.parseURL(feedUrl);
-
-    if (feed && feed.items) {
-      const parsedSlides = await Promise.all(
-        feed.items.map(async (item, index) => {
-          const linkUrl = item.link || '';
-          let embedUrl = '';
-
-          // OEmbed から埋め込み用プレイヤーのURLを解決
-          if (linkUrl) {
-            try {
-              const oembedUrl = `https://speakerdeck.com/oembed.json?url=${encodeURIComponent(linkUrl)}`;
-              const oembedRes = await fetch(oembedUrl);
-              if (oembedRes.ok) {
-                const oembedData = await oembedRes.json() as { html?: string };
-                if (oembedData.html) {
-                  const embedUrlMatch = oembedData.html.match(/src="([^"]+)"/);
-                  if (embedUrlMatch) {
-                    embedUrl = embedUrlMatch[1];
-                  }
-                }
-              }
-            } catch (e) {
-              console.error(`Failed to get oembed for ${linkUrl}:`, e);
-            }
-          }
-
-          // YYYY-MM-DD 形式の日付にフォーマット
-          let dateStr = '';
-          if (item.pubDate) {
-            const d = new Date(item.pubDate);
-            if (!isNaN(d.getTime())) {
-              dateStr = d.toISOString().split('T')[0];
-            }
-          }
-
-          return {
-            id: `sd-${index}`,
-            title: item.title || 'Untitled Slide',
-            event: 'Speaker Deck Presentation', // デフォルトイベント名
-            date: dateStr,
-            platform: 'Speaker Deck' as const,
-            embedUrl: embedUrl,
-            linkUrl: linkUrl,
-            description: item.contentSnippet || '',
-          };
-        })
-      );
-      speakerdeckSlides = parsedSlides.filter(s => s.embedUrl !== '');
-    }
-  } catch (err) {
-    console.error('Failed to fetch or parse Speaker Deck RSS:', err);
-  }
-}
-
-// 手動登録スライドとマージして日付降順でソート
-const slides: SlideItem[] = [...manualSlides, ...speakerdeckSlides].sort(
-  (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-);
+const slides = await getSlides();
 ---
 
 <Layout
