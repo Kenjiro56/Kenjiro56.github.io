@@ -1,0 +1,56 @@
+---
+import type { Article } from '../lib/rss';
+
+interface Props {
+  article: Article;
+}
+
+const { article } = Astro.props;
+
+const sourceBadges: Record<string, { label: string; color: string; icon: string }> = {
+  Zenn: { label: 'Zenn', color: 'bg-blue-500/10 text-blue-400 border-blue-500/30', icon: '💙' },
+  Qiita: { label: 'Qiita', color: 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30', icon: '🌿' },
+  Hatena: { label: 'はてなブログ', color: 'bg-sky-500/10 text-sky-400 border-sky-500/30', icon: '✍️' },
+};
+
+const badge = sourceBadges[article.source] || {
+  label: article.source,
+  color: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/30',
+  icon: '🌐',
+};
+---
+
+<a
+  href={article.link}
+  target="_blank"
+  rel="noopener noreferrer"
+  class="group block bg-slate-900/60 rounded-2xl p-6 border border-slate-800 hover:border-cyan-500/50 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-950/20 flex flex-col justify-between"
+>
+  <div>
+    <div class="flex items-center justify-between gap-4 mb-3">
+      <span class={`px-3 py-0.5 rounded-full text-xs font-semibold border flex items-center gap-1.5 ${badge.color}`}>
+        <span>{badge.icon}</span>
+        <span>{badge.label}</span>
+      </span>
+      <time class="text-xs font-mono text-slate-500">{article.pubDate}</time>
+    </div>
+
+    <h3 class="text-xl font-bold text-slate-100 group-hover:text-cyan-300 transition-colors leading-snug mb-3">
+      {article.title}
+      <span class="inline-block ml-1 text-slate-500 group-hover:translate-x-0.5 transition-transform">↗</span>
+    </h3>
+
+    {article.snippet && (
+      <p class="text-sm text-slate-400 line-clamp-2 leading-relaxed mb-4">
+        {article.snippet}
+      </p>
+    )}
+  </div>
+
+  <div class="pt-2 flex items-center text-xs font-medium text-cyan-400 group-hover:underline">
+    <span>{badge.label} で読む</span>
+    <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+    </svg>
+  </div>
+</a>

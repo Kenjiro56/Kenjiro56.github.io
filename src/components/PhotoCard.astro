@@ -1,0 +1,73 @@
+---
+import type { PhotoItem } from '../utils/photos';
+
+interface Props {
+  photo: PhotoItem;
+}
+
+const { photo } = Astro.props;
+---
+
+<div
+  id={`photo-card-${photo.id}`}
+  data-photo-trigger
+  data-photo-url={photo.url}
+  data-photo-title={photo.title}
+  data-photo-location={photo.locationName}
+  data-photo-date={photo.date}
+  data-photo-desc={photo.description || ''}
+  data-photo-lat={photo.latitude.toFixed(4)}
+  data-photo-lng={photo.longitude.toFixed(4)}
+  data-photo-camera={photo.camera || ''}
+  class="group cursor-pointer bg-slate-900/70 rounded-2xl overflow-hidden border border-slate-800 hover:border-cyan-500/60 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-950/40 flex flex-col"
+>
+  <div class="relative overflow-hidden aspect-video bg-slate-800">
+    <img
+      src={photo.url}
+      alt={photo.title}
+      loading="lazy"
+      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+    />
+    
+    <!-- Click to Zoom Badge -->
+    <div class="absolute inset-0 bg-slate-950/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+      <span class="px-3 py-1.5 rounded-full bg-cyan-500/90 text-white font-medium text-xs shadow-lg backdrop-blur-sm flex items-center gap-1.5 transform translate-y-2 group-hover:translate-y-0 transition-transform">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m3-3H7" />
+        </svg>
+        <span>拡大表示</span>
+      </span>
+    </div>
+
+    <div class="absolute top-3 right-3 bg-slate-950/80 backdrop-blur-md px-2.5 py-1 rounded-full border border-slate-700/60 text-[11px] font-mono text-cyan-300">
+      {photo.date}
+    </div>
+  </div>
+
+  <div class="p-5 flex-grow flex flex-col justify-between">
+    <div>
+      <div class="flex items-center gap-1.5 text-xs text-cyan-400 font-medium mb-1">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+        </svg>
+        <span>{photo.locationName}</span>
+      </div>
+
+      <h3 class="text-lg font-bold text-slate-100 group-hover:text-cyan-300 transition-colors mb-2">
+        {photo.title}
+      </h3>
+
+      {photo.description && (
+        <p class="text-sm text-slate-400 leading-relaxed mb-4 line-clamp-2">
+          {photo.description}
+        </p>
+      )}
+    </div>
+
+    <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-500 font-mono">
+      <span>🌐 {photo.latitude.toFixed(4)}, {photo.longitude.toFixed(4)}</span>
+      {photo.camera && <span>📷 {photo.camera}</span>}
+    </div>
+  </div>
+</div>
