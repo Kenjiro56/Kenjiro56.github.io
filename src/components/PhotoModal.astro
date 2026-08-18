@@ -1,0 +1,155 @@
+---
+---
+
+<div
+  id="photo-modal"
+  class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md transition-opacity duration-300 opacity-0 pointer-events-none"
+  aria-hidden="true"
+>
+  <div
+    id="photo-modal-card"
+    class="relative max-w-4xl w-full bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl shadow-cyan-950/50 transform scale-95 transition-transform duration-300 flex flex-col md:flex-row max-h-[90vh]"
+  >
+    <!-- Close Button -->
+    <button
+      id="photo-modal-close"
+      type="button"
+      class="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-slate-950/80 hover:bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center border border-slate-700/80 transition-colors focus:outline-none"
+      aria-label="閉じる"
+    >
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <!-- Modal Image Container -->
+    <div class="md:w-3/5 bg-black flex items-center justify-center relative min-h-[280px] md:min-h-[420px]">
+      <img
+        id="photo-modal-img"
+        src=""
+        alt=""
+        class="w-full h-full object-contain max-h-[70vh] md:max-h-[85vh]"
+      />
+    </div>
+
+    <!-- Modal Content Details -->
+    <div class="md:w-2/5 p-6 sm:p-8 flex flex-col justify-between overflow-y-auto bg-slate-900">
+      <div class="space-y-4">
+        <div class="flex items-center justify-between text-xs">
+          <span id="photo-modal-location" class="flex items-center gap-1 text-cyan-400 font-semibold">
+            📍 Location
+          </span>
+          <span id="photo-modal-date" class="font-mono text-slate-400">
+            2026-01-01
+          </span>
+        </div>
+
+        <h3 id="photo-modal-title" class="text-2xl font-extrabold text-white leading-tight">
+          Photo Title
+        </h3>
+
+        <p id="photo-modal-desc" class="text-sm text-slate-300 leading-relaxed">
+          Description
+        </p>
+      </div>
+
+      <div class="pt-6 mt-6 border-t border-slate-800 space-y-2 text-xs text-slate-400 font-mono">
+        <div class="flex items-center justify-between">
+          <span>GPS 座標:</span>
+          <span id="photo-modal-coords" class="text-slate-200">0.0, 0.0</span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span>カメラ情報:</span>
+          <span id="photo-modal-camera" class="text-slate-200">-</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('photo-modal');
+    const card = document.getElementById('photo-modal-card');
+    const closeBtn = document.getElementById('photo-modal-close');
+
+    const modalImg = document.getElementById('photo-modal-img');
+    const modalTitle = document.getElementById('photo-modal-title');
+    const modalLocation = document.getElementById('photo-modal-location');
+    const modalDate = document.getElementById('photo-modal-date');
+    const modalDesc = document.getElementById('photo-modal-desc');
+    const modalCoords = document.getElementById('photo-modal-coords');
+    const modalCamera = document.getElementById('photo-modal-camera');
+
+    function openModal(data) {
+      if (!modal || !modalImg) return;
+
+      modalImg.src = data.url || '';
+      modalImg.alt = data.title || '';
+      if (modalTitle) modalTitle.textContent = data.title || '';
+      if (modalLocation) modalLocation.textContent = `📍 ${data.location || ''}`;
+      if (modalDate) modalDate.textContent = `📅 ${data.date || ''}`;
+      if (modalDesc) modalDesc.textContent = data.desc || '';
+      if (modalCoords) modalCoords.textContent = `${data.lat || ''}, ${data.lng || ''}`;
+      if (modalCamera) modalCamera.textContent = `📷 ${data.camera || '不明'}`;
+
+      modal.classList.remove('hidden', 'pointer-events-none');
+      setTimeout(() => {
+        modal.classList.remove('opacity-0');
+        if (card) {
+          card.classList.remove('scale-95');
+          card.classList.add('scale-100');
+        }
+      }, 10);
+
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      if (!modal) return;
+      modal.classList.add('opacity-0');
+      if (card) {
+        card.classList.remove('scale-100');
+        card.classList.add('scale-95');
+      }
+
+      setTimeout(() => {
+        modal.classList.add('hidden', 'pointer-events-none');
+        document.body.style.overflow = '';
+      }, 300);
+    }
+
+    // グローバルイベントリスナー（すべての [data-photo-trigger] 要素のクリックをキャッチ）
+    document.addEventListener('click', (e) => {
+      const trigger = e.target.closest('[data-photo-trigger]');
+      if (trigger) {
+        e.preventDefault();
+        const data = {
+          url: trigger.getAttribute('data-photo-url'),
+          title: trigger.getAttribute('data-photo-title'),
+          location: trigger.getAttribute('data-photo-location'),
+          date: trigger.getAttribute('data-photo-date'),
+          desc: trigger.getAttribute('data-photo-desc'),
+          lat: trigger.getAttribute('data-photo-lat'),
+          lng: trigger.getAttribute('data-photo-lng'),
+          camera: trigger.getAttribute('data-photo-camera'),
+        };
+        openModal(data);
+      }
+    });
+
+    closeBtn?.addEventListener('click', closeModal);
+
+    modal?.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal && !modal.classList.contains('hidden')) {
+        closeModal();
+      }
+    });
+  });
+</script>

@@ -1,0 +1,44 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import { fetchAllArticles } from '../../lib/rss';
+
+const articles = await fetchAllArticles();
+---
+
+<Layout
+  title="Articles | Kenjiro Hirose"
+  description="Zenn / Qiita / はてなブログで執筆したブログ一覧"
+>
+  <div class="space-y-8">
+    <div class="space-y-3">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold">
+        <span>📡 External RSS Feeds</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
+        記事一覧
+      </h1>
+      <p class="text-slate-400 text-base max-w-2xl">
+        Zenn / Qiita / はてなブログで執筆したブログ一覧です。
+      </p>
+    </div>
+
+    <!-- Article Stats -->
+    <div class="flex items-center justify-between border-b border-slate-800/80 pb-4 text-xs font-medium text-slate-400">
+      <span>全 {articles.length} 件の記事を表示中</span>
+      <span class="font-mono text-cyan-400">更新順 (降順)</span>
+    </div>
+
+    {articles.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {articles.map((article) => (
+          <ArticleCard article={article} />
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-16 bg-slate-900/40 rounded-2xl border border-slate-800">
+        <p class="text-slate-400">記事を取得できませんでした。フィード設定をご確認ください。</p>
+      </div>
+    )}
+  </div>
+</Layout>

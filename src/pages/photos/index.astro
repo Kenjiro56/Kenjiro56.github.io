@@ -1,0 +1,60 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PhotoMap from '../../components/PhotoMap.astro';
+import PhotoCard from '../../components/PhotoCard.astro';
+import { getPhotos } from '../../utils/photos';
+
+const photos = await getPhotos();
+---
+
+<Layout
+  title="Photos | Kenjiro Hirose"
+  description="撮影した写真と位置情報（Exif）をマッピングしたフォトギャラリー"
+>
+  <div class="space-y-10">
+    <!-- Header Section -->
+    <div class="space-y-3">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-semibold">
+        <span>📷 Photo Gallery & Locations</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
+        写真ギャラリー
+      </h1>
+      <p class="text-slate-400 text-base max-w-2xl">
+        撮影した画像のExifメタデータ（GPS緯度経度・撮影日時）を自動解析し、撮影場所をマップと写真カードで記録しています。
+      </p>
+    </div>
+
+    <!-- Map Section (上部: マップ) -->
+    <section class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-bold text-slate-200 flex items-center gap-2">
+          <span>🗺️ 撮影スポットマップ</span>
+        </h2>
+        <span class="text-xs text-slate-400">ピンをクリックすると写真へフォーカス</span>
+      </div>
+      <PhotoMap photos={photos} />
+    </section>
+
+    <!-- Photos Grid Section (下部: 写真ギャラリー) -->
+    <section class="space-y-6 pt-6">
+      <div class="flex items-center justify-between border-b border-slate-800/80 pb-4">
+        <h2 class="text-xl font-bold text-slate-200 flex items-center gap-2">
+          <span>📸 写真コレクション ({photos.length})</span>
+        </h2>
+      </div>
+
+      {photos.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {photos.map((photo) => (
+            <PhotoCard photo={photo} />
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-16 bg-slate-900/40 rounded-2xl border border-slate-800">
+          <p class="text-slate-400">写真がまだ配置されていません。`public/photos/` に画像を配置してください。</p>
+        </div>
+      )}
+    </section>
+  </div>
+</Layout>

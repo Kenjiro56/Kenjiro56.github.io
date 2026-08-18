@@ -1,0 +1,7 @@
+name = "slack-photo-webhook"
+main = "index.js"
+compatibility_date = "2024-01-01"
+
+[vars]
+GITHUB_OWNER = "Kenjiro56"
+GITHUB_REPO = "Kenjiro56.github.io"
